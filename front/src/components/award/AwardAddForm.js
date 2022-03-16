@@ -3,20 +3,20 @@ import {Form, Button, Row, Col} from 'react-bootstrap';
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
 
-// 수상이력 추가 컴포넌트로 {폼 활성화 여부 state}, {user.id}, {리스트 업데이트 함수}를 props로 받아옵니다. 
+// 수상이력 추가 컴포넌트로 {폼 활성화 여부 state}, {수상이력리스트 업데이트 함수}를 props로 받아옵니다. 
 function AwardAddForm ({setAddAward, setAwardLists}) {
-    // 수상내역, 상세내역 state 
+    // 추가는 본인만 가능하므로, 현재 접속중인 userid를 사용합니다.
     const userState = useContext(UserStateContext);
     const user_id = userState.user.id;
 
+    // 수상내역, 상세내역을 state로 관리합니다. 
     const [awardTitle, setAwardTitle] = useState('');
-    const [awardDetail, setAwardDetail] = useState('');
-    // **확인 버튼 시, 보내질 form data 형식&내용 ** 확인버튼 구현 예정 (submit)
+    const [awardDetail, setAwardDetail] = useState('');  
 
+    // 입력받은 값으로 수상이력에 추가하고, 목록을 다시 업데이트 합니다. 
     const addSubmitHandler = async (e) => {
         e.preventDefault();
     
-  
         const uptAwardData = {
           user_id,
           title: awardTitle,
@@ -25,7 +25,6 @@ function AwardAddForm ({setAddAward, setAwardLists}) {
     
         await Api.post("award/create", uptAwardData);
     
-        
         const updateList = await Api.get("awardlist", user_id);
         setAwardLists(updateList.data);
     
@@ -58,3 +57,6 @@ function AwardAddForm ({setAddAward, setAwardLists}) {
 }
 
 export default AwardAddForm;
+
+
+

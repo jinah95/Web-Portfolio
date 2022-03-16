@@ -3,14 +3,17 @@ import {Form, Row, Col, Button} from "react-bootstrap";
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
 
+// 수상이력 수정 컴포넌트로, {해당 수상내역}, {수정 컴포넌트 활성화 state}, {수상이력리스트 업데이트 함수} 를 props로 받아옵니다.
 function AwardEditForm ({award, setIsEditing, setAwardLists}){
+    // 수정은 본인만 가능하므로, 현재 접속중인 userid를 사용합니다. 
     const userState = useContext(UserStateContext);
+    const user_id = userState.user.id;
 
+    // 수상내역, 상세내역을 state로 관리합니다. 
     const [awardTitle, setAwardTitle] = useState(award.title);
     const [awardDetail, setAwardDetail] = useState(award.description);
 
-    const user_id = userState.user.id;
-
+    // 입력받은 값으로 수상이력을 수정하고, 목록을 다시 업데이트 합니다. 
     const editSubmitHandler = async (e) => {
         e.preventDefault();
 
