@@ -3,6 +3,8 @@ import {Card, Row, Col, Button} from "react-bootstrap";
 import AwardAddForm from "./AwardAddForm";
 import Award from './Award';
 import * as Api from "../../api";
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 // 메인 컴포넌트라고 할 수 있습니다. 
 // portfolioOwnerId는 해당하는 포트폴리오의 userID를 가리킵니다. (!== 현재 접속중인 userID)
@@ -31,11 +33,9 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
           {isEditable&&(
             <Row className="text-center">
             <Col>
-              <Button
-                variant="primary"
-                onClick={()=>setAddAward(true)}>
-                +
-              </Button><br /><br />  
+              <Fab color="primary" aria-label="add" size="small">
+                <AddIcon onClick={()=>setAddAward(true)}/>
+              </Fab>
             </Col> 
           </Row>
           )}

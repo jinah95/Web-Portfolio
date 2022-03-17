@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 import {Card, Row, Col, Button} from "react-bootstrap";
 import AwardEditForm from './AwardEditForm';
+import Fab from '@mui/material/Fab';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 
 // 뿌려지는 수상이력 개별이 갖는 구조 컨퍼넌트 입니다. 
@@ -24,7 +27,9 @@ function Award ({award, isEditable, setAwardLists}) {
                     </Col> 
                     {isEditable&&
                         <Col xs lg="1">
-                            <Button variant="outline-info" size="sm" className="mr-3" onClick={()=>setIsEditing(true)}>편집</Button>
+                            <Fab color="secondary" aria-label="edit" size="small" onClick={()=>setIsEditing(true)}>
+                                <EditIcon />
+                            </Fab>
                         </Col>
                     }
                 </Row>

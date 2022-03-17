@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/",
   "dependencies": {
+    "@material-ui/core": "^4.12.3",
     "@sindresorhus/is": "^4.2.0",
     "bcrypt": "^5.0.1",
     "concurrently": "^7.0.0",
