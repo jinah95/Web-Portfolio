@@ -19,7 +19,7 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
     ,[portfolioOwnerId])
 
     return(
-    <>
+
       <Card className="ml-3">
         <Card.Body>
           <Row>
@@ -27,7 +27,7 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
           </Row>
           <Row>
             {awardLists.map((award) =>
-              <Award award={award} isEditable={isEditable} setAwardLists={setAwardLists}/>
+              <Award key={award.id} award={award} isEditable={isEditable} setAwardLists={setAwardLists}/>
             )}
           </Row>
           {isEditable&&(
@@ -47,7 +47,6 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
            )}
         </Card.Body>
       </Card>
-    </>
     
     )
 }
