@@ -13,6 +13,16 @@ function AwardEditForm ({award, setIsEditing, setAwardLists}){
     const [awardTitle, setAwardTitle] = useState(award.title);
     const [awardDetail, setAwardDetail] = useState(award.description);
 
+    const titleChange = (e) => {
+        console.log('title을 바꿈')
+        setAwardTitle(e.target.value); 
+    }
+    
+    const detailChange = (e) => {
+        console.log('detail을 바꿈')
+        setAwardDetail(e.target.value); 
+    }
+
     // 입력받은 값으로 수상이력을 수정하고, 목록을 다시 업데이트 합니다. 
     const editSubmitHandler = async (e) => {
         e.preventDefault();
@@ -34,11 +44,11 @@ function AwardEditForm ({award, setIsEditing, setAwardLists}){
 
             <Form onSubmit={editSubmitHandler}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Control type="text" placeholder={award.title} value={awardTitle} onChange={(e)=>setAwardTitle(e.target.value)}/>
+                    <Form.Control type="text" placeholder={award.title} value={awardTitle} onChange={titleChange}/>
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Control type="text" class='text-muted' placeholder={award.description} value={awardDetail} onChange={(e)=>setAwardDetail(e.target.value)}/>
+                    <Form.Control type="text" class='text-muted' placeholder={award.description} value={awardDetail} onChange={detailChange}/>
                 </Form.Group>
                 <Row className="text-center" style={{marginBottom: '20px'}}>
                     <Col>
