@@ -18,9 +18,8 @@ function Award ({award, isEditable, setAwardLists}) {
             <Card.Text>
                 <Row className="align-items-center">
                     <Col>
-                        <span >{award.title}</span>
-                        <br />
-                        <span class='text-muted'>{award.description}</span>
+                        <p>{award.title}</p>
+                        <p className='text-muted'>{award.description}</p>
                     </Col> 
                     {isEditable&&
                         <Col xs lg="1">

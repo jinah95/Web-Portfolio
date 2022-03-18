@@ -25,7 +25,7 @@ function AwardCard ({portfolioOwnerId, isEditable}) {
           </Row>
           <Row>
             {awardLists.map((award) =>
-              <Award award={award} isEditable={isEditable} setAwardLists={setAwardLists}/>
+              <Award key={award.id} award={award} isEditable={isEditable} setAwardLists={setAwardLists}/>
             )}
           </Row>
           {isEditable&&(
