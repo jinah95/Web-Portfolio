@@ -29,11 +29,12 @@ userAuthRouter.post("/users/register", async function (req, res, next) {
     if (newUser.errorMessage) {
       throw new Error(newUser.errorMessage);
     }
-    newUser.password = undefined;
+
+    const result = removeFields(newUser["_doc"], "password");
 
     res
       .status(201)
-      .json({ data: newUser, code: 201, message: "유저 생성 성공" });
+      .json({ data: result, code: 201, message: "유저 생성 성공" });
   } catch (error) {
     next(error);
   }
@@ -63,9 +64,12 @@ userAuthRouter.get("/users", loginRequired, async function (req, res, next) {
   try {
     // 전체 사용자 목록을 얻음
     const users = await UserAuthService.getUsers();
+
+    const result = users.map((user) => removeFields(user["_doc"], "password", "like"));
+
     res
       .status(200)
-      .json({ data: users, code: 200, message: "유저 리스트 조회 성공" });
+      .json({ data: result, code: 200, message: "유저 리스트 조회 성공" });
   } catch (error) {
     next(error);
   }
@@ -85,8 +89,11 @@ userAuthRouter.get(
       if (currentUserInfo.errorMessage) {
         throw new Error(currentUserInfo.errorMessage);
       }
+
+      const result = removeFields(currentUserInfo["_doc"], "password");
+
       res.status(200).json({
-        data: currentUserInfo,
+        data: result,
         code: 200,
         message: "사용자 조회 성공",
       });
@@ -101,7 +108,7 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
     // 토큰에서 사용자 id를 추출함.
     const userId = req.currentUserId;
 
-    const toUpdate = fieldChecking(req.body, 'name', 'email', 'password', 'description', 'permission');
+    const toUpdate = fieldChecking(req.body, "name", "email", "password", "description", "permission");
 
     // 해당 사용자 아이디로 사용자 정보를 db에서 찾아 업데이트함. 업데이트 요소가 없을 시 생략함
     const updatedUser = await UserAuthService.setUser({ userId, toUpdate });
@@ -110,7 +117,7 @@ userAuthRouter.put("/users", loginRequired, async function (req, res, next) {
       throw new Error(updatedUser.errorMessage);
     }
 
-    const result = removeFields(updatedUser['_doc'], 'password');
+    const result = removeFields(updatedUser["_doc"], "password", "like");
 
     res
       .status(201)
@@ -134,16 +141,15 @@ userAuthRouter.get(
 
       // 유저 좋아요 해준사람 목록에 내가 있으면 true값을 가진 변수 전달
       const isLikedByThisUser = userInfo.like.by.includes(req.currentUserId);
-      const document = { ...userInfo['_doc'] };
 
       // 필요없는 필드 제거
-      const { password, ...rest } = document;
+      const rest = removeFields(userInfo["_doc"], "password", "like");
 
       // permission 필드 확인 후 비공개 처리된 필드 제거
       const filteredInfo = filteredByPermissionList(rest);
 
       // 좋아요 눌렀는지 체크하는 필드 추가
-      const updatedUserInfo = { ...filteredInfo, isLikedByThisUser };
+      const updatedUserInfo = { ...filteredInfo, isLikedByThisUser, like: { count: userInfo.like.count } };
 
       res
         .status(200)
@@ -161,9 +167,15 @@ userAuthRouter.get(
     try {
       const { name } = req.params;
       const user = await UserAuthService.searchUser({ name });
+
+      const result =
+        Object
+          .values(user)
+          .map((one) => removeFields(one["_doc"], "password", "like"));
+
       res
         .status(200)
-        .json({ data: user, code: 200, message: "유저 검색 성공" });
+        .json({ data: result, code: 200, message: "유저 검색 성공" });
     } catch (error) {
       next(error);
     }
@@ -186,14 +198,15 @@ userAuthRouter.post(
 
       // user 정보를 불러와서
       const user = await UserAuthService.getUserInfo({ userId: liked });
-      const toUpdate = fieldChecking(user, 'like');
+      const toUpdate = fieldChecking(user, "like");
 
       // 이미 좋아요를 눌렀다면
       if (toUpdate.like.by.includes(current)) {
         // 좋아요 -1
         toUpdate.like.count--;
         // 좋아요 누른 사람 목록에서 현재 유저의 userId 삭제
-        toUpdate.like.by.pop(current);
+        const index = toUpdate.like.by.indexOf(current);
+        toUpdate.like.by.splice(index, 1);
       }
       // 좋아요를 누르지 않았다면
       else {
@@ -214,9 +227,11 @@ userAuthRouter.post(
         throw new Error(updatedUser.errorMessage);
       }
 
+      const result = removeFields(updatedUser["_doc"], "password", "like");
+
       res
         .status(200)
-        .json({ data: updatedUser, code: 200, message: "좋아요 반영 완료" });
+        .json({ data: result, code: 200, message: "좋아요 반영 완료" });
     } catch (error) {
       next(error);
     }

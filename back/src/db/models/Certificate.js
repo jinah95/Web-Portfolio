@@ -7,22 +7,22 @@ class Certificate {
   }
 
   static async findByTitle({ title }) {
-    const certificate = await CertificateModel.findOne({ title }).populate('user');
+    const certificate = await CertificateModel.findOne({ title }).populate('user', 'id');
     return certificate;
   }
 
   static async findById({ id }) {
-    const certificate = await CertificateModel.findOne({ id }).populate('user');
+    const certificate = await CertificateModel.findOne({ id }).populate('user', 'id');
     return certificate;
   }
 
   static async findByUser({ user }) {
-    const certificates = await CertificateModel.find({ user }).populate('user');
+    const certificates = await CertificateModel.find({ user }).populate('user', 'id');
     return certificates;
   }
 
   static async find(filter) {
-    const certificates = await CertificateModel.find(filter).populate('user');
+    const certificates = await CertificateModel.find(filter).populate('user', 'id');
     return certificates;
   }
 

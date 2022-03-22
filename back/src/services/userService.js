@@ -2,7 +2,7 @@ import { User } from "../db/index.js"; // from을 폴더(db) 로 설정 시, 디
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import jwt from "jsonwebtoken";
-import { updateHandler } from "../utils/utils.js";
+import {removeFields, updateHandler} from "../utils/utils.js";
 
 class UserAuthService {
   static async addUser({ name, email, password }) {
@@ -70,7 +70,6 @@ class UserAuthService {
 
   static async getUsers() {
     const users = await User.findAll();
-    users.map((user) => (user.password = undefined));
     return users;
   }
 
@@ -86,6 +85,12 @@ class UserAuthService {
 
     // null인 field는 제외하고, 남은 field만 객체에 담음
     const fieldToUpdate = updateHandler(toUpdate);
+
+    // password 필드가 존재한다면
+    if (fieldToUpdate['password'] !== undefined) {
+      // 암호화
+      fieldToUpdate['password'] = await bcrypt.hash(fieldToUpdate['password'], 10);
+    }
     user = await User.update({ userId, fieldToUpdate });
 
     return user;
@@ -100,7 +105,7 @@ class UserAuthService {
         "해당 이메일은 가입 내역이 없습니다. 다시 한 번 확인해 주세요.";
       return { errorMessage };
     }
-    user.password = undefined;
+
     return user;
   }
 
@@ -112,7 +117,6 @@ class UserAuthService {
         message: "존재하지 않는 유저 입니다",
       };
     }
-    users.map((user) => (user.password = undefined));
     return users;
   }
 }

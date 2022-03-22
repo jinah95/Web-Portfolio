@@ -2,8 +2,8 @@ POST http://localhost:5001/users/register
 Content-Type: application/json
 
 {
-  "email": "ccc@ccc.com",
-  "name": "체셔캣",
+  "email": "yyy@yyy.com",
+  "name": "yyy",
   "password": "asdf1234"
 }
 
@@ -12,27 +12,32 @@ POST http://localhost:5001/users/login
 Content-Type: application/json
 
 {
-  "email": "aaa@aaa.com",
+  "email": "ccc@ccc.com",
   "password": "asdf1234"
 }
 
 ###
 POST http://localhost:5001/users/0c3abbed-17e1-42d7-9156-8f84bb7eb414/likes
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MjgzYzNiNy04MTFkLTQ1ZDMtYTVlNy0wYmU4ZDI0N2QxNjIiLCJpYXQiOjE2NDc5MzE1MzV9.gRwtuON5EHgqQ-ISTlmian1KZ4vwIC-iTLCHH7LipY0
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYTkxNDkxMC1hOTc4LTQ5YzAtYTJkNy0zYjA0NTQ0MTJlOWIiLCJpYXQiOjE2NDc5NDEzMTF9.8b-Gl_ktnp8f946b8iRP3FX3G5xlW2FeaMPghnBWPwU
 
 
 ###
 POST http://localhost:5001/users/0c3abbed-17e1-42d7-9156-8f84bb7eb414/likes
 Content-Type: application/json
-Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYTkxNDkxMC1hOTc4LTQ5YzAtYTJkNy0zYjA0NTQ0MTJlOWIiLCJpYXQiOjE2NDc5MzE1NTF9.LJM42E_cmsiM9LAWSK_-yTRrKnLfOI_eeQ-mUwqXdmw
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4MjgzYzNiNy04MTFkLTQ1ZDMtYTVlNy0wYmU4ZDI0N2QxNjIiLCJpYXQiOjE2NDc5NDEyNjJ9.tmqDpXlUCGCCyVn1_vxk3yqhskz8naNuucpsRIVdDnU
 
 
 ###
-POST http://localhost:5001/users/0c3abbed-17e1-42d7-9156-8f84bb7eb414/likes
+POST http://localhost:5001/certificates
 Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
 
+{
+  "title": "제목2",
+  "description": "내용2",
+  "date": "2020-03-04"
+}
 
 ###
 PUT http://localhost:5001/users
@@ -40,10 +45,18 @@ Content-Type: application/json
 Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II
 
 {
-  "password": "qwer1234",
+  "name": "변경",
+  "password": "asdf1234",
+  "description": "상태",
   "permission": {
     "name": false,
     "email": true,
     "description": false
   }
 }
+
+
+###
+GET http://localhost:5001/users/0c3abbed-17e1-42d7-9156-8f84bb7eb414
+Content-Type: application/json
+Authorization: Beare eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwYzNhYmJlZC0xN2UxLTQyZDctOTE1Ni04Zjg0YmI3ZWI0MTQiLCJpYXQiOjE2NDc5MzE1NzJ9.x4MuOycQFN4LB2IZolha3NdSAW33ktuU11LAx9Ln2II

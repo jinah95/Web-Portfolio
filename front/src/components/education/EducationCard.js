@@ -5,6 +5,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import * as Api from "../../api";
 import { UserStateContext } from "../../App";
+import AlertDialog from "../utils/AlertDialog";
 
 function EducationCard({
   education,
@@ -16,6 +17,7 @@ function EducationCard({
 
   const [anchorEl, setAnchorEl] = useState(null); // Menu Element를 가리킵니다.
   const [isOpen, setIsOpen] = useState(null); // Menu Element의 Open 상태를 저장합니다.
+  const [isDeleting, setIsDeleting] = useState(false); // 삭제 여부를 저장합니다.
 
   const userId = userState.user.id; // 현재 로그인한 유저의 아이디를 저장합니다.
 
@@ -28,13 +30,15 @@ function EducationCard({
     setIsOpen(false);
   };
 
-  const DelBtnClickHandler = async () => {
-    // educations로 DELETE 요청을 보내 학력을 삭제합니다.
-    await Api.delete("educations", education.id);
+  const DelBtnClickHandler = async (isDeleting) => {
+    if (isDeleting) {
+      // educations로 DELETE 요청을 보내 학력을 삭제합니다.
+      await Api.delete("educations", education.id);
 
-    // education-lists/유저id로 GET 요청을 보내 업데이트 사항이 반영된 학력을 새로 저장합니다.
-    const { data } = await Api.get("education-lists", userId);
-    setEducations(data.data);
+      // education-lists/유저id로 GET 요청을 보내 업데이트 사항이 반영된 학력을 새로 저장합니다.
+      const { data } = await Api.get("education-lists", userId);
+      setEducations(data.data);
+    }
   };
 
   return (
@@ -65,12 +69,15 @@ function EducationCard({
                   <Button
                     color="error"
                     startIcon={<DeleteIcon />}
-                    onClick={DelBtnClickHandler}
+                    onClick={() => setIsDeleting(true)}
                   >
                     삭제
                   </Button>
                 </MenuItem>
               </Menu>
+            )}
+            {isDeleting && (
+              <AlertDialog checkDeleteComplete={DelBtnClickHandler} />
             )}
           </>
         )}

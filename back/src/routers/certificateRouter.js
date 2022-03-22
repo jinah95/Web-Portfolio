@@ -3,6 +3,7 @@ import { Router } from "express";
 import { loginRequired } from "../middlewares/loginRequired.js";
 import { CertificateService } from "../services/certificateService.js";
 import { UserAuthService } from "../services/userService.js";
+import {fieldChecking} from "../utils/utils.js";
 
 const certificateRouter = Router();
 
@@ -45,7 +46,10 @@ certificateRouter.post(
         throw new Error(newCertificate.errorMessage);
       }
 
-      res.status(201).json(newCertificate);
+      const filteredUser = fieldChecking(user["_doc"], "id");
+      const result = { user: filteredUser, title, description, date };
+
+      res.status(201).json(result);
     } catch (error) {
       next(error);
     }
@@ -67,17 +71,6 @@ certificateRouter.get(
         // 에러를 throw
         throw new Error(certificate.errorMessage);
       }
-
-      // // 가져온 certificate의 user와 현재 로그인한 유저의 id 비교
-      // //
-      // // 현재 로그인한 유저의 id와
-      // const userId = req.currentUserId;
-      //
-      // // certificate 소유자의 id가 다르다면
-      // if (userId !== certificate.user.id) {
-      //   // 에러를 throw
-      //   throw new Error('잘못된 접근입니다.');
-      // }
 
       // 200 코드와 함께 자격증 정보 전송
       res.status(200).json(certificate);
