@@ -31,6 +31,15 @@
 - Mongodb, Mongoose
 - multer
 
+## 3. 프로젝트 팀원
+| 이름 | 담당 업무 |
+| ------ | ------ |
+| 홍일도 | 팀장/프론트엔드 개발 |
+| 신광천 | 백엔드 개발 |
+| 김재연 | 백엔드 개발 |
+| 백지유 | 프론트엔드 개발 |
+| 박진아 | 프론트엔드 개발 |
+
 ## `👉자세한 설명은 노션을 이용해주세요`
 - [Our Portfolio](https://www.notion.so/frontend-jinah/Our-Portfolio-dbd510ccea824c3cb7a35c0b8bef80d6)
 - 기능 상세 설명 / 트러블 슈팅 / 시연영상 
